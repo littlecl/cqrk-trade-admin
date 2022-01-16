@@ -12,7 +12,7 @@ export function getInfo(token) {
   return request({
     url: '/admin/index/info',
     method: 'get',
-    params: { token }
+    params: { token }//query参数
   })
 }
 

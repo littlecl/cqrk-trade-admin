@@ -28,9 +28,51 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
+
+  // 商品路由
+  {
+    path: '/goods',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'Goods',
+      component: () => import('@/views/goods/index'),
+      meta: { title: '商品', icon: 'el-icon-s-shop' }
+    }]
+  },
+
+  {
+    path: '/user',
+    component: Layout,
+    name: 'User',
+    redirect: '/user/admin/index',
+    meta: { title: '用户', icon: 'el-icon-user-solid' },
+    children: [
+      {
+        path: 'admin/index',
+        name: 'Admin',
+        component: () => import('@/views/user/admin/index'),
+        meta: { title: '管理员' }
+      },
+      {
+        path: 'wxuser/index',
+        name: 'Wxuser',
+        component: () => import('@/views/user/wxuser/index'),
+        meta: { title: '微信用户' }
+      }
+    ]
+  },
+
+
+
+  // 配置轮播图路由
+  // {
+
+  // }, 
+
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

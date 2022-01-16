@@ -42,7 +42,9 @@ module.exports = {
 
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        target: "http://192.168.3.41:5000",
+        // target: "http://localhost:5000",
+        // target: "http://192.168.31.134:5000",
         // pathRewrite: { "^/api": "" }
       }
     }
