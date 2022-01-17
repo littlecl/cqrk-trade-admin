@@ -43,7 +43,7 @@ export const constantRoutes = [
       meta: { title: '商品', icon: 'el-icon-s-shop' }
     }]
   },
-
+  // 用户路由
   {
     path: '/user',
     component: Layout,
@@ -66,12 +66,17 @@ export const constantRoutes = [
     ]
   },
 
-
-
-  // 配置轮播图路由
-  // {
-
-  // }, 
+  // 轮播图路由
+  {
+    path: '/slider',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'Slider',
+      component: () => import('@/views/slider/index'),
+      meta: { title: '轮播图', icon: 'el-icon-picture' }
+    }]
+  },
 
 
   // 404 page must be placed at the end !!!

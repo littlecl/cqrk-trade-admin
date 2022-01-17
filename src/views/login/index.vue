@@ -73,16 +73,16 @@ export default {
   data() {
     // 对登录的用户名进行验证
     const validateUsername = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error("用户名长度不能小于6"));
+      if (value.length < 2) {
+        callback(new Error("用户名长度不能小于2"));
       } else {
         callback();
       }
     };
     // 对登录密码的进行验证
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error("密码长度不能小于6"));
+      if (value.length < 8) {
+        callback(new Error("密码长度不能小于8"));
       } else {
         callback();
       }

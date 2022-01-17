@@ -32,14 +32,6 @@ export const getAdminInfo = (page, limit) => {
     })
 }
 
-// 删除管理员
-export const deleteUser = (id) => {
-    return request({
-        url: `/admin/deleteUser/${id}`,
-        method: 'delete'
-    })
-}
-
 // 添加管理员和修改管理员
 export const addOrUpdate = (userInfo) => {
     if (userInfo.id) {
@@ -55,4 +47,53 @@ export const addOrUpdate = (userInfo) => {
             data: userInfo
         })
     }
+}
+
+// 删除管理员
+export const deleteUser = (id) => {
+    return request({
+        url: `/admin/deleteUser/${id}`,
+        method: 'delete'
+    })
+}
+
+// 获取微信用户信息
+export const getWxUserInfo = (page, limit) => {
+    return request({
+        url: `/admin/wxuser/${page}/${limit}`,
+        method: 'get'
+    })
+}
+
+// 获取轮播图信息
+export const getSliderInfo = (page, limit) => {
+    return request({
+        url: `/admin/sliderInfo/${page}/${limit}`,
+        method: 'get'
+    })
+}
+
+// 添加或者修改轮播图
+export const addOrUpdateSliderInfo = (sliderInfo) => {
+    if (sliderInfo.id) {
+        return request({
+            url: '/admin/updateSlider',
+            method: 'put',
+            data: sliderInfo
+        })
+    } else {
+        return request({
+            url: '/admin/addSlider',
+            method: 'post',
+            data: sliderInfo
+        })
+    }
+}
+
+// 删除轮播图
+export const deleteSlider = (id) => {
+    return request({
+        url: `/admin/deleteSlider/${id}`,
+        method: 'delete'
+    })
 }

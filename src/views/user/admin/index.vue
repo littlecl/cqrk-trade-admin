@@ -4,13 +4,13 @@
       >添加</el-button
     >
     <el-table :data="adminInfo" border style="width: 100%">
-      <el-table-column type="index" prop="" label="序号" width="180">
+      <el-table-column type="index" align="center" label="序号" width="80">
       </el-table-column>
-      <el-table-column prop="username" label="用户名" width="180">
-      </el-table-column>
+      <el-table-column prop="username" label="用户名"> </el-table-column>
+      <el-table-column prop="nickName" label="昵称"> </el-table-column>
       <el-table-column prop="" label="用户头像">
         <template slot-scope="{ row, $index }">
-          <img style="width: 100px; height: 100px" :src="row.avatar" alt="" />
+          <img style="width: 70px; height: 70px" :src="row.avatar" alt="" />
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间"> </el-table-column>
@@ -41,7 +41,7 @@
       :current-page="page"
       :page-size="limit"
       :total="total"
-      :page-sizes="[1, 2, 5, 10, 15]"
+      :page-sizes="[4, 5, 10]"
       layout="prev, pager, next, jumper,->,sizes,total"
     >
     </el-pagination>
@@ -51,18 +51,18 @@
       top="11vh"
       :visible.sync="dialogFormVisible"
     >
-      <el-form style="width: 80%" :model="tmForm">
-        <el-form-item label="用户名" label-width="100px">
+      <el-form style="width: 80%" :model="tmForm" :rules="rules" ref="tmForm">
+        <el-form-item label="用户名" prop="username" label-width="100px">
           <el-input autocomplete="off" v-model="tmForm.username"></el-input>
         </el-form-item>
-        <el-form-item label="昵称" label-width="100px">
+        <el-form-item label="昵称" prop="nickName" label-width="100px">
           <el-input autocomplete="off" v-model="tmForm.nickName"></el-input>
         </el-form-item>
-        <el-form-item label="密码" label-width="100px">
+        <el-form-item label="密码" prop="password" label-width="100px">
           <el-input autocomplete="off" v-model="tmForm.password"></el-input>
         </el-form-item>
 
-        <el-form-item label="头像" label-width="100px">
+        <el-form-item label="头像" prop="avatar" label-width="100px">
           <el-upload
             class="avatar-uploader"
             action="/api/admin/uploadAvatar"
@@ -80,7 +80,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addAdmin">确 定</el-button>
+        <el-button type="primary" @click="addOrUpdateAdmin">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -92,7 +92,7 @@ export default {
   data() {
     return {
       page: 1,
-      limit: 5,
+      limit: 4,
       total: 0,
       adminInfo: [], //管理员信息
 
@@ -105,6 +105,42 @@ export default {
         password: "",
         avatar: "",
       }, //用来收集数据
+      rules: {
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
+          {
+            min: 2,
+            max: 15,
+            message: "长度在 2 到 15 个字符",
+            trigger: "change",
+          },
+        ],
+        nickName: [
+          { message: "请输入昵称", trigger: "change" },
+          {
+            min: 2,
+            max: 15,
+            message: "长度在 2 到 15 个字符",
+            trigger: "change",
+          },
+        ],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          {
+            min: 6,
+            max: 16,
+            message: "长度在 6 到 16 个字符",
+            trigger: "change",
+          },
+        ],
+        avatar: [
+          {
+            required: true,
+            message: "请上传头像",
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   mounted() {
@@ -192,14 +228,21 @@ export default {
       this.tmForm = { ...row }; //浅拷贝
     },
     // 添加管理员
-    async addAdmin() {
-      this.dialogFormVisible = false;
-      let userInfo = this.tmForm;
-      let result = await this.$API.addOrUpdate(userInfo);
-      if (result.code === 200) {
-        this.$message.success(result.message);
-        this.getAdminInfo(userInfo.id ? this.page : 1);
-      }
+    addOrUpdateAdmin() {
+      this.$refs.tmForm.validate(async (valid) => {
+        if (valid) {
+          this.dialogFormVisible = false;
+          let userInfo = this.tmForm;
+          let result = await this.$API.addOrUpdate(userInfo);
+          if (result.code === 200) {
+            this.$message.success(result.message);
+            this.getAdminInfo(userInfo.id ? this.page : 1);
+          }
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
   },
 };
