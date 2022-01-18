@@ -73,7 +73,7 @@
             <img v-if="tmForm.avatar" :src="tmForm.avatar" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             <div class="el-upload__tip" slot="tip">
-              只能上传jpg/png文件，且不超过500kb
+              只能上传jpg/png文件，且不超过2MB
             </div>
           </el-upload>
         </el-form-item>
@@ -116,7 +116,7 @@ export default {
           },
         ],
         nickName: [
-          { message: "请输入昵称", trigger: "change" },
+          // { require: false, message: "请输入昵称", trigger: "change" },
           {
             min: 2,
             max: 15,
@@ -197,19 +197,16 @@ export default {
     // 图片上传前
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
-      //   const isPNG = file.type === "image/png";
+      const isPNG = file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+      if (!isJPG && !isPNG) {
+        this.$message.error("上传头像图片只能是 JPG或PNG 格式!");
       }
-      //   if (!isPNG) {
-      //     this.$message.error("上传头像图片只能是 PNG 格式!");
-      //   }
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
-      return isJPG && isLt2M;
+      return (isJPG || isPNG) && isLt2M;
     },
     // 点击添加按钮显示添加管理员dialog页面
     showAddDialog() {

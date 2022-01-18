@@ -97,3 +97,11 @@ export const deleteSlider = (id) => {
         method: 'delete'
     })
 }
+
+// 修改轮播图状态
+export const updateSliderStatus = (id, status) => {
+    return request({
+        url: `/admin/updateStatus/${id}/${status}`,
+        method: 'put'
+    })
+}
