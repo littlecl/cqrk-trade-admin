@@ -15,7 +15,7 @@
       </el-table-column>
       <el-table-column label="状态" width="90">
         <template slot-scope="{ row, $index }">
-          {{ row.status ? "未使用" : "可使用" }}
+          {{ row.status ? "未使用" : "使用中" }}
         </template>
       </el-table-column>
       <el-table-column prop="" label="操作">
@@ -89,7 +89,7 @@
       :current-page="page"
       :page-size="limit"
       :total="total"
-      :page-sizes="[1, 2, 4, 5, 10]"
+      :page-sizes="[2, 3, 5, 10]"
       layout="prev, pager, next, jumper,->,sizes,total"
     >
     </el-pagination>

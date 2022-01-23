@@ -8,6 +8,38 @@ import request from '@/utils/request'
 //     }
 // }
 
+// 首页
+export const getHomeInfo = () => {
+    return request({
+        url: '/admin/home',
+        method: 'get'
+    })
+}
+
+// 首页柱状图
+export const getLineChartInfo = () => {
+    return request({
+        url: '/admin/home/lineChart',
+        method: 'get'
+    })
+}
+
+// 首页饼图
+export const getPieChartInfo = () => {
+    return request({
+        url: '/admin/home/pieChart',
+        method: 'get'
+    })
+}
+
+//首页柱状图
+export const getBarChartInfo = () => {
+    return request({
+        url: '/admin/home/barChart',
+        method: 'get'
+    })
+}
+
 // 获取商品信息
 export const getAllGoodsInfo = (page, limit) => {
     return request({
@@ -105,3 +137,4 @@ export const updateSliderStatus = (id, status) => {
         method: 'put'
     })
 }
+
