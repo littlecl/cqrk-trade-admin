@@ -46,7 +46,7 @@
               <div style="text-align: right; margin: -10px 0">
                 <el-button
                   size="mini"
-                  type="text"
+                  type=""
                   @click="cancelChangeStatus($index)"
                   >取消</el-button
                 >
@@ -65,9 +65,9 @@
               type="success"
               icon="el-icon-question"
               slot="reference"
-              @click="getStatus(row)"
               >状态</el-button
             >
+            <!-- @click="getStatus(row)" -->
           </el-popover>
 
           <el-button
@@ -138,7 +138,6 @@
         <el-button type="primary" @click="addOrUpdateSlider">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 状态弹出框 -->
   </div>
 </template>
 
@@ -222,7 +221,7 @@ export default {
     //   this.dialogVisible = true;
     // },
     handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件`);
+      this.$message.warning(`当前限制上传 1 张图片`);
     },
     handleRemove(file, fileList) {
       console.log(file);

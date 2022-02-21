@@ -8,6 +8,7 @@
 
     <breadcrumb class="breadcrumb-container" />
 
+    <span class="name">{{ name }}</span>
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
@@ -38,7 +39,7 @@ export default {
     Hamburger,
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar"]),
+    ...mapGetters(["sidebar", "avatar", "name"]),
   },
   methods: {
     toggleSideBar() {
@@ -75,6 +76,11 @@ export default {
 
   .breadcrumb-container {
     float: left;
+  }
+  .name {
+    position: absolute;
+    right: 84px;
+    top: 18px;
   }
 
   .right-menu {

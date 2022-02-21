@@ -12,6 +12,8 @@
           />
         </template>
       </el-table-column>
+      <el-table-column prop="createUserTime" label="创建时间">
+      </el-table-column>
       <el-table-column prop="openId" label="openId"> </el-table-column>
     </el-table>
     <!-- 分页器 -->

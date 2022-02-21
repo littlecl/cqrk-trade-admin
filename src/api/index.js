@@ -48,6 +48,14 @@ export const getAllGoodsInfo = (page, limit) => {
     })
 }
 
+// 审核商品
+export const updateCheckStatus = (goodsId, status) => {
+    return request({
+        url: `/admin/updateCheckStatus/${goodsId}/${status}`,
+        method: 'put'
+    })
+}
+
 // 删除商品
 export const deleteGoodsInfo = (goodsId, imgId) => {
     return request({

@@ -20,6 +20,9 @@
             <el-form-item label="商品名称">
               <span>{{ props.row.goodsTitle }}</span>
             </el-form-item>
+            <el-form-item label="商品价格">
+              <span>{{ props.row.price }}元</span>
+            </el-form-item>
             <el-form-item label="商品图片">
               <span
                 v-for="(goodsImg, index) in props.row.releaseImg.goodsImg"
@@ -67,22 +70,56 @@
       </el-table-column>
       <el-table-column label="商品分类" prop="goodsSort"> </el-table-column>
       <el-table-column label="商品名称" prop="goodsTitle"> </el-table-column>
-      <!-- <el-table-column label="商品图片" prop="goodsImg">
+      <el-table-column label="商品价格">
+        <template slot-scope="{ row, $index }"> {{ row.price }}元 </template>
+      </el-table-column>
+      <el-table-column label="审核状态" prop="">
         <template slot-scope="{ row, $index }">
-          <img
-            style="width: 100px; height: 100px"
-            :src="row.releaseImg.goodsImg[0]"
-            alt=""
-          />
+          {{ row.status ? "未通过" : "通过" }}
         </template>
-      </el-table-column> -->
-      <el-table-column label="描述" prop="goodsDes"> </el-table-column>
+      </el-table-column>
       <el-table-column label="操作" prop="">
         <template slot-scope="{ row, $index }">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >审核</el-button
+          <el-popover
+            title="选择状态"
+            placement="left"
+            width="250"
+            trigger="hover"
+            :ref="`${$index}`"
+            @show="getStatus(row)"
           >
-          <el-button size="mini" type="danger" @click="deleteGoodsInfo(row)"
+            <el-form :model="statusForm">
+              <el-form-item label="" style="margin-bottom: 10px" prop="status">
+                <el-radio-group v-model="statusForm.status">
+                  <el-radio :label="0">通过</el-radio>
+                  <el-radio :label="1">不通过</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <div style="text-align: right; margin: -10px 0">
+                <el-button size="mini" @click="cancelCheck($index)"
+                  >取消</el-button
+                >
+                <el-button
+                  type="primary"
+                  size="mini"
+                  @click="changeCheckStatus(row, $index)"
+                  >确定</el-button
+                >
+              </div>
+            </el-form>
+            <!-- @click="getStatus(row)" -->
+            <el-button
+              size="mini"
+              slot="reference"
+              @click="clickHandler($event)"
+              >审核</el-button
+            >
+          </el-popover>
+          <el-button
+            style="margin-left: 5px"
+            size="mini"
+            type="danger"
+            @click="deleteGoodsInfo(row), clickHandler($event)"
             >删除</el-button
           >
         </template>
@@ -112,6 +149,9 @@ export default {
       limit: 10,
       total: 0,
       goodsInfo: [],
+      statusForm: {
+        status: "",
+      },
     };
   },
   mounted() {
@@ -164,6 +204,36 @@ export default {
           });
         });
     },
+    // 获取商品审核状态
+    getStatus(row) {
+      this.statusForm.status = row.status;
+    },
+    // 取消审核
+    cancelCheck(index) {
+      this.$refs[`${index}`].doClose();
+    },
+    // 修改审核状态
+    async changeCheckStatus(row, index) {
+      setTimeout(() => {
+        this.cancelCheck(index);
+      }, 1000);
+      let result = await this.$API.updateCheckStatus(
+        row.id,
+        this.statusForm.status
+      );
+      if (result.code === 200) {
+        this.$message.success("修改成功！");
+        this.getAllGoodsInfo();
+      }
+    },
+    //按钮点击后失焦
+    clickHandler(e) {
+      let target = e.target;
+      if (target.nodeName == "SPAN") {
+        target = e.target.parentNode;
+      }
+      target.blur();
+    },
   },
 };
 </script>
@@ -182,9 +252,9 @@ export default {
   width: 70%;
 }
 
-.el-table__row .cell {
+/* .el-table__row .cell {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-}
+} */
 </style>
