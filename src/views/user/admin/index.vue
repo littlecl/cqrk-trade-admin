@@ -4,17 +4,35 @@
       >添加</el-button
     >
     <el-table :data="adminInfo" border style="width: 100%">
-      <el-table-column type="index" align="center" label="序号" width="80">
+      <el-table-column type="index" align="center" label="序号" width="60">
       </el-table-column>
-      <el-table-column prop="username" label="用户名"> </el-table-column>
-      <el-table-column prop="nickName" label="昵称"> </el-table-column>
-      <el-table-column prop="" label="用户头像">
+      <el-table-column prop="username" align="center" label="用户名">
+      </el-table-column>
+      <el-table-column prop="nickName" align="center" label="昵称">
+        <template slot-scope="{ row, $index }">
+          {{ row.nickName ? row.nickName : "无" }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="" label="用户头像" align="center">
         <template slot-scope="{ row, $index }">
           <img style="width: 70px; height: 70px" :src="row.avatar" alt="" />
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间"> </el-table-column>
-      <el-table-column prop="" label="操作">
+      <el-table-column
+        prop="createTime"
+        label="创建时间"
+        align="center"
+        width="240"
+      >
+      </el-table-column>
+      <el-table-column label="状态" align="center">
+        <template slot-scope="{ row, $index }">
+          <el-tag :type="row.status ? 'danger' : 'success'">{{
+            row.status ? "未激活" : "激活"
+          }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="" label="操作" align="center" width="300">
         <template slot-scope="{ row, $index }">
           <el-button
             size="mini"
@@ -23,11 +41,51 @@
             @click="showUpdateDialog(row)"
             >修改</el-button
           >
+
+          <el-popover
+            title="选择状态"
+            placement="left"
+            width="250"
+            trigger="hover"
+            :ref="`${$index}`"
+            @show="getStatus(row)"
+          >
+            <el-form :model="statusForm">
+              <el-form-item label="" style="margin-bottom: 10px" prop="status">
+                <el-radio-group v-model="statusForm.status">
+                  <el-radio :label="0">激活</el-radio>
+                  <el-radio :label="1">未激活</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <div style="text-align: right; margin: -10px 0">
+                <el-button size="mini" @click="cancelActivation($index)"
+                  >取消</el-button
+                >
+                <el-button
+                  type="primary"
+                  size="mini"
+                  @click="changeUserStatus(row, $index)"
+                  >确定</el-button
+                >
+              </div>
+            </el-form>
+            <el-button
+              style="margin-left: 10px"
+              size="mini"
+              type="success"
+              icon="el-icon-question"
+              slot="reference"
+              @click="clickHandler($event)"
+              >状态</el-button
+            >
+          </el-popover>
+
           <el-button
+            style="margin-left: 10px"
             size="mini"
             type="danger"
             icon="el-icon-delete"
-            @click="deleteAdmin(row)"
+            @click="deleteAdmin(row), clickHandler($event)"
             >删除</el-button
           >
         </template>
@@ -141,6 +199,9 @@ export default {
           },
         ],
       },
+      statusForm: {
+        status: "",
+      }, //管理员状态，0代表激活，1代表未激活
     };
   },
   mounted() {
@@ -240,6 +301,34 @@ export default {
           return false;
         }
       });
+    },
+    // 获取管理员状态
+    getStatus(row) {
+      this.statusForm.status = row.status;
+    },
+    // 取消激活
+    cancelActivation(index) {
+      this.$refs[`${index}`].doClose();
+    },
+    // 修改管理员状态
+    async changeUserStatus(row, index) {
+      this.cancelActivation(index);
+      let result = await this.$API.updateUserStatus(
+        row.id,
+        this.statusForm.status
+      );
+      if (result.code === 200) {
+        this.$message.success("修改状态成功！");
+        this.getAdminInfo(this.page);
+      }
+    },
+    //按钮点击后失焦
+    clickHandler(e) {
+      let target = e.target;
+      if (target.nodeName == "SPAN") {
+        target = e.target.parentNode;
+      }
+      target.blur();
     },
   },
 };

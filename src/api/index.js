@@ -64,6 +64,25 @@ export const deleteGoodsInfo = (goodsId, imgId) => {
     })
 }
 
+// 分类筛选
+export const filterGoodsInfo = (filter, page, limit) => {
+    return request({
+        url: `/admin/filterGoodsSort/${page}/${limit}`,
+        method: 'post',
+        data: filter
+    })
+}
+
+// 批量删除商品
+export const batchDeleteGoodsInfo = (data) => {
+    return request({
+        url: '/admin/batchDeleteGoodsInfo',
+        method: 'delete',
+        data
+    })
+}
+
+
 // 管理员
 export const getAdminInfo = (page, limit) => {
     return request({
@@ -87,6 +106,14 @@ export const addOrUpdate = (userInfo) => {
             data: userInfo
         })
     }
+}
+
+// 修改管理员状态
+export const updateUserStatus = (id, status) => {
+    return request({
+        url: `/admin/updateUserStatus/${id}/${status}`,
+        method: 'put'
+    })
 }
 
 // 删除管理员

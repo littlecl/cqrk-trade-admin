@@ -4,21 +4,30 @@
       >添加</el-button
     >
     <el-table :data="sliderInfo" border style="width: 100%">
-      <el-table-column label="序号" type="index" width="80"> </el-table-column>
-      <el-table-column label="图片">
+      <el-table-column label="序号" type="index" align="center" width="80">
+      </el-table-column>
+      <el-table-column label="图片" align="center">
         <template slot-scope="{ row, $index }">
           <img :src="row.sliderImg" style="width: 120px; height: 120px" />
         </template>
       </el-table-column>
-      <el-table-column prop="link" label="链接"> </el-table-column>
-      <el-table-column prop="createTime" label="添加时间" width="180">
+      <el-table-column prop="link" label="链接" align="center">
       </el-table-column>
-      <el-table-column label="状态" width="90">
+      <el-table-column
+        prop="createTime"
+        label="添加时间"
+        align="center"
+        width="180"
+      >
+      </el-table-column>
+      <el-table-column label="状态" width="90" align="center">
         <template slot-scope="{ row, $index }">
-          {{ row.status ? "未使用" : "使用中" }}
+          <el-tag :type="row.status ? 'danger' : 'success'">{{
+            row.status ? "未使用" : "使用中"
+          }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="" label="操作">
+      <el-table-column prop="" label="操作" align="center">
         <template slot-scope="{ row, $index }">
           <el-button
             size="mini"
