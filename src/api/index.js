@@ -82,6 +82,38 @@ export const batchDeleteGoodsInfo = (data) => {
     })
 }
 
+// 获取求购商品
+export const getAllNeedGoodsInfo = (page, limit) => {
+    return request({
+        url: `/admin/needGoodsInfo/${page}/${limit}`,
+        method: 'get'
+    })
+}
+
+// 删除求购商品
+export const deleteNeedGoodsInfo = (needGoodsId) => {
+    return request({
+        url: `/admin/deleteNeedGoodsInfo/${needGoodsId}`,
+        method: 'delete'
+    })
+}
+
+// 审核求购商品
+export const updateNeedGoodsStatus = (needGoodsId, status) => {
+    return request({
+        url: `/admin/updateNeedGoodsStatus/${needGoodsId}/${status}`,
+        method: 'put'
+    })
+}
+
+// 批量删除求购商品
+export const batchDeleteNeedGoodsInfo = (data) => {
+    return request({
+        url: '/admin/batchDeleteNeedGoodsInfo',
+        method: 'delete',
+        data
+    })
+}
 
 // 管理员
 export const getAdminInfo = (page, limit) => {
@@ -170,6 +202,59 @@ export const updateSliderStatus = (id, status) => {
     return request({
         url: `/admin/updateStatus/${id}/${status}`,
         method: 'put'
+    })
+}
+
+// 获取留言
+export const getMessages = (page, limit) => {
+    return request({
+        url: `/admin/messages/${page}/${limit}`,
+        method: 'get'
+    })
+}
+
+// 删除留言
+export const deleteMessage = (id) => {
+    return request({
+        url: '/admin/deleteMessage',
+        method: 'delete',
+        params: { id }
+    })
+}
+
+// 批量删除留言
+export const batchDeleteMessage = (data) => {
+    return request({
+        url: '/admin/batchDeleteMessage',
+        method: 'delete',
+        data
+    })
+}
+
+// 删除回复
+export const deleteReply = (id) => {
+    return request({
+        url: '/admin/deleteReply',
+        method: 'delete',
+        params: { id }
+    })
+}
+
+// 重新获取留言信息
+export const getReplyInfo = (id) => {
+    return request({
+        url: '/admin/replyInfo',
+        method: 'get',
+        params: { id }
+    })
+}
+
+// 批量删除回复信息
+export const batchDeleteReply = (data) => {
+    return request({
+        url: '/admin/batchDeleteReply',
+        method: 'delete',
+        data
     })
 }
 

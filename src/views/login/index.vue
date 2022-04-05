@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">登录</h3>
+        <h3 class="title">重人科二手市场管理系统</h3>
       </div>
 
       <el-form-item prop="username">
@@ -89,8 +89,8 @@ export default {
     };
     return {
       loginForm: {
-        username: "leizhongrui",
-        password: "leizhongrui",
+        username: "",
+        password: "",
       },
       loginRules: {
         username: [

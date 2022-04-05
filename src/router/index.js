@@ -36,29 +36,38 @@ export const constantRoutes = [
   {
     path: '/goods',
     component: Layout,
-    children: [{
-      path: '',
-      name: 'Goods',
-      component: () => import('@/views/goods/index'),
-      meta: { title: '商品', icon: 'el-icon-s-shop' }
-    }]
+    redirect: '/goods/release',
+    meta: { title: '商品', icon: 'el-icon-s-shop' },
+    children: [
+      {
+        path: 'release',
+        name: 'Release',
+        component: () => import('@/views/goods/release/index'),
+        meta: { title: '发布商品' }
+      }, {
+        path: 'need',
+        name: 'Need',
+        component: () => import('@/views/goods/need/index'),
+        meta: { title: '求购商品' }
+      }
+    ]
   },
   // 用户路由
   {
     path: '/user',
     component: Layout,
     name: 'User',
-    redirect: '/user/admin/index',
+    redirect: '/user/admin',
     meta: { title: '用户', icon: 'el-icon-user-solid' },
     children: [
       {
-        path: 'admin/index',
+        path: 'admin',
         name: 'Admin',
         component: () => import('@/views/user/admin/index'),
         meta: { title: '管理员' }
       },
       {
-        path: 'wxuser/index',
+        path: 'wxuser',
         name: 'Wxuser',
         component: () => import('@/views/user/wxuser/index'),
         meta: { title: '微信用户' }
@@ -75,6 +84,17 @@ export const constantRoutes = [
       name: 'Slider',
       component: () => import('@/views/slider/index'),
       meta: { title: '轮播图', icon: 'el-icon-picture' }
+    }]
+  },
+  // 留言
+  {
+    path: '/message',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'Message',
+      component: () => import('@/views/message/index'),
+      meta: { title: '留言管理', icon: 'el-icon-s-comment' }
     }]
   },
 

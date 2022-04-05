@@ -42,8 +42,10 @@ module.exports = {
 
     proxy: {
       "/api": {
-        target: "http://192.168.3.41:5000",
-        // target: "http://localhost:5000",
+        // target: "http://192.168.3.41:5000",
+        // target: "http://114.55.91.34:5000",
+        // target: "http://47.99.63.39:5000",
+        target: "http://littlecl.top",
         // target: "http://192.168.31.134:5000",
         // pathRewrite: { "^/api": "" }
       }

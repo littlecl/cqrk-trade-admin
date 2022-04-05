@@ -42,9 +42,12 @@
               <span
                 v-for="(goodsImg, index) in props.row.releaseImg.goodsImg"
                 :key="goodsImg"
-                ><img
+                ><el-image
                   style="width: 100px; height: 100px; margin-left: 15px"
+                  :lazy="imgLazy"
+                  fit="contain"
                   :src="goodsImg"
+                  :preview-src-list="props.row.releaseImg.goodsImg"
                   alt=""
               /></span>
             </el-form-item>
@@ -170,7 +173,7 @@
 
 <script>
 export default {
-  name: "goods",
+  name: "releaseGoods",
   data() {
     return {
       page: 1,
@@ -198,6 +201,7 @@ export default {
         goodsImgIdArr: [], //批量删除商品图片id
       },
       disable: true, //禁用批量删除按钮
+      imgLazy: true,
     };
   },
   mounted() {
@@ -348,7 +352,11 @@ export default {
               if (
                 this.selectGoodsInfo.goodsIdArr.length === this.goodsInfo.length
               ) {
-                this.handleCurrentChange(this.page - 1);
+                if (this.page !== 1) {
+                  this.handleCurrentChange(this.page - 1);
+                } else {
+                  this.handleCurrentChange(this.page);
+                }
               } else {
                 this.handleCurrentChange(
                   this.goodsInfo.length > 1 ? this.page : this.page - 1
